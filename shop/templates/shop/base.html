@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Канцелярские товары{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .discount-high {
+            background-color: #2E8B57 !important;
+        }
+        .out-of-stock {
+            background-color: #ADD8E6 !important;
+        }
+        .price-original {
+            text-decoration: line-through;
+            color: red;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'shop:product_list' %}">Канцтовары</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated and role == 'manager' or user.is_authenticated and role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:order_list' %}">Заказы</a>
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated and role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:product_create' %}">Добавить товар</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="d-flex">
+                {% if user_full_name %}
+                    <span class="navbar-text me-3">{{ user_full_name }}</span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <a class="btn btn-outline-light" href="{% url 'shop:logout' %}">Выход</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

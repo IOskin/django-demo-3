@@ -1,0 +1,28 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h1 class="h4 mb-3">Вход</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mb-2">Войти</button>
+        </form>
+        <a href="{% url 'shop:product_list_guest' %}" class="btn btn-secondary w-100">Продолжить как гость</a>
+    </div>
+{% endblock %}
+
+

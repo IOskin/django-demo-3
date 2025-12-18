@@ -1,0 +1,41 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Список заказов{% endblock %}
+
+{% block content %}
+<h1 class="h4 mb-3">Список заказов</h1>
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Клиент</th>
+            <th>Дата создания</th>
+            <th>Позиции</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.username }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>
+                    <ul class="mb-0">
+                        {% for item in order.items.all %}
+                            <li>{{ item.product.name }} — {{ item.quantity }} шт.</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">Заказы отсутствуют</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+
